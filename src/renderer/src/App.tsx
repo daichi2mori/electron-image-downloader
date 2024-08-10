@@ -7,6 +7,10 @@ function App(): JSX.Element {
 
   const handleGetImages = async (): Promise<void> => {
     const imgUrls = await window.imgDI.fetchImgs(targetUrl)
+    if (typeof imgUrls === 'string') {
+      setMsg('画像の取得に失敗しました')
+      return
+    }
     setImgUrls(imgUrls)
   }
 

@@ -72,7 +72,7 @@ app.on('window-all-closed', () => {
 
 const imgUrls: string[] = []
 
-async function fetchImgs(event: IpcMainInvokeEvent, targetUrl: string): Promise<string[]> {
+async function fetchImgs(event: IpcMainInvokeEvent, targetUrl: string): Promise<string[] | string> {
   const newUrl = new URL(targetUrl)
   const origin = newUrl.origin
 
@@ -85,8 +85,11 @@ async function fetchImgs(event: IpcMainInvokeEvent, targetUrl: string): Promise<
       imgUrls.push(origin + img.attributes.src)
     }
   } catch (error) {
-    console.error(error)
+    console.log(error)
+    return 'failed'
   }
+
+  if (imgUrls.length === 0) return 'failed'
 
   return imgUrls
 }
